@@ -1,0 +1,4 @@
+= simple_form_for @building, html: { class: 'form-horizontal' } do |f|
+  = f.input :name, label: '棟名', hint: "例如:'A' 代表A棟"
+  .form-actions
+    = f.submit '送出', class: 'btn btn-primary'

@@ -1,7 +1,17 @@
 // I gather this file is a starting point for the project.
 @import "bootstrap";
+@import "compass/css3/border-radius";
 
 // Include responsive Bootstrap styles
 // @import "bootstrap-responsive";
 
 #main { padding-top: 60px; }
+
+.unit {
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  @include border-radius(4px, 4px);
+  padding: 5px;
+  height: 80px;
+}

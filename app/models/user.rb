@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :password, :password_confirmation, :remember_me, :email, :role, :name, :phone, :car_num, :bike_num, :rent, :pid, :cell_id
+  attr_accessible :password, :password_confirmation, :remember_me, :email, :role, :name, :phone, :car_num, :bike_num, :rent, :pid, :unit_id
 
-  belongs_to :cell
+  belongs_to :unit
   validates_presence_of :name, :phone, :pid
 
   ROLES = { 'system' => 100, 'operator' => 10, 'resident' => 1 }
@@ -17,7 +17,15 @@ class User < ActiveRecord::Base
   end
 
   def self.current_residents
-    where(:cell_id != nil)
+    where(:unit_id != nil)
+  end
+
+  def unit_address
+    self.unit.try(:address)
+  end
+
+  def management_fee
+    self.unit.try(:management_fee)
   end
 
   def update_with_password(params, *options)

@@ -1,0 +1,30 @@
+.row
+  .span12
+    h1 大樓管理
+    = link_to '新增大樓', new_building_path, class: 'btn btn-primary pull-right'
+    .clearfix
+    - @buildings.each do |building|
+      .span3
+        .well
+          h2.pull-left #{building.name}棟
+          = link_to '編輯', edit_building_path(building), class: 'pull-right btn'
+          '
+          = link_to '新增單位', new_building_unit_path(building), class: 'pull-right btn'
+          .clearfix
+          hr
+          ul.unstyled
+            - building.units.each do |unit|
+              li
+                - if unit.resident.present?
+                  .unit.living-unit.alert.alert-success
+                    h5.pull-left= unit.address
+                    = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini pull-right'
+                    = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger btn-mini pull-right'
+                    .clearfix
+                    hr
+                    = link_to unit.resident_name, resident_path(unit.resident)
+                - else
+                  .unit.empty.alert.alert-info
+                    h5.pull-left= unit.address
+                    = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini pull-right'
+                    = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger btn-mini pull-right'
