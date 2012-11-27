@@ -21,6 +21,8 @@ class ResidentsController < ApplicationController
   def create
     @resident = User.new(params[:user])
     @resident.password = Devise.friendly_token.first(6)
+    @resident.created_by = current_user
+
     if @resident.save
       redirect_to resident_path(@resident), notice: "#{@resident.name}建立成功！"
     else
@@ -34,6 +36,8 @@ class ResidentsController < ApplicationController
 
   def update
     @resident = User.find(params[:id])
+    @resident.updated_by = current_user
+
     if @resident.update_attributes(params[:user])
       redirect_to resident_path(@resident), notice: "成功更新了#{@resident.name}的資料"
     end

@@ -12,6 +12,7 @@ class BuildingsController < ApplicationController
 
   def create
     @building = Building.new(params[:building])
+    @building.created_by = current_user
     if @building.save
       redirect_to buildings_path, notice: "成功建立#{@building.name}"
     else
@@ -25,6 +26,7 @@ class BuildingsController < ApplicationController
 
   def update
     @building = Building.find(params[:id])
+    @building.updated_by = current_user
     if @building.update_attributes(params[:building])
       redirect_to buildings_path, notice: "#{@building.name}更新成功"
     else

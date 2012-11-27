@@ -1,3 +1,4 @@
+#encoding: utf-8
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -5,10 +6,14 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :password, :password_confirmation, :remember_me, :email, :role, :name, :phone, :car_num, :bike_num, :rent, :pid, :unit_id
+  attr_accessible :password, :password_confirmation, :remember_me, :email, :role, :name, :phone, :car_num, :bike_num, :rent, :pid, :unit_id, :updated_by, :created_by
 
   belongs_to :unit
   validates_presence_of :name, :phone, :pid
+  before_create :build_create_comment
+  before_update :build_update_comment
+
+  acts_as_commentable
 
   ROLES = { 'system' => 100, 'operator' => 10, 'resident' => 1 }
 
@@ -34,6 +39,26 @@ class User < ActiveRecord::Base
     else
       super
     end
+  end
+
+  def created_user
+    User.find(self.created_by)
+  end
+
+  def updated_user
+    User.find(self.updated_by)
+  end
+
+  protected
+
+  def build_create_comment
+    comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
+    comment.save
+  end
+
+  def build_update_comment
+    comment = Comment.build_from(self, self.updated_by, "#{self.updated_user.name}更新了#{self.name}</br>更新內容：#{self.changes}")
+    comment.save
   end
 
 end
