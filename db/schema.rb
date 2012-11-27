@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121127211310) do
+ActiveRecord::Schema.define(:version => 20121127220345) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(:version => 20121127211310) do
 
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
+
+  create_table "payments", :force => true do |t|
+    t.integer  "management_fee"
+    t.integer  "car_fee"
+    t.integer  "bike_fee"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.integer  "user_id"
+    t.datetime "paid_date"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "payments", ["created_by"], :name => "index_payments_on_created_by"
+  add_index "payments", ["updated_by"], :name => "index_payments_on_updated_by"
+  add_index "payments", ["user_id"], :name => "index_payments_on_user_id"
 
   create_table "units", :force => true do |t|
     t.integer  "building_id"

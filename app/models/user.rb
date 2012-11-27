@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   attr_accessible :password, :password_confirmation, :remember_me, :email, :role, :name, :phone, :car_num, :bike_num, :rent, :pid, :unit_id, :updated_by, :created_by
 
   belongs_to :unit
+  has_many :payments
+
   validates_presence_of :name, :phone, :pid
   before_create :build_create_comment
   before_update :build_update_comment
@@ -16,13 +18,24 @@ class User < ActiveRecord::Base
   acts_as_commentable
 
   ROLES = { 'system' => 100, 'operator' => 10, 'resident' => 1 }
+  CAR_FEE = 200
+  BIKE_FEE = 100
 
   def has_permission?(permission)
     ROLES[self.role] >= ROLES[permission.to_s]
   end
 
   def self.current_residents
-    where(:unit_id != nil)
+    where("unit_id IS NOT NULL")
+  end
+
+  def build_payment(user)
+    payment = self.payments.build
+    payment.management_fee = self.unit.management_fee
+    payment.car_fee = CAR_FEE if self.car_num
+    payment.bike_fee = BIKE_FEE if self.bike_num
+    payment.created_by = user.id
+    payment.save
   end
 
   def unit_address
