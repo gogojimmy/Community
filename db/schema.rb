@@ -11,13 +11,35 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121127111357) do
+ActiveRecord::Schema.define(:version => 20121127211310) do
 
   create_table "buildings", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
+
+  add_index "buildings", ["created_by"], :name => "index_buildings_on_created_by"
+  add_index "buildings", ["updated_by"], :name => "index_buildings_on_updated_by"
+
+  create_table "comments", :force => true do |t|
+    t.integer  "commentable_id",   :default => 0
+    t.string   "commentable_type", :default => ""
+    t.string   "title",            :default => ""
+    t.text     "body"
+    t.string   "subject",          :default => ""
+    t.integer  "user_id",          :default => 0,  :null => false
+    t.integer  "parent_id"
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
+
+  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
+  add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "units", :force => true do |t|
     t.integer  "building_id"
@@ -27,9 +49,13 @@ ActiveRecord::Schema.define(:version => 20121127111357) do
     t.integer  "management_fee"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
 
   add_index "units", ["building_id"], :name => "index_units_on_building_id"
+  add_index "units", ["created_by"], :name => "index_units_on_created_by"
+  add_index "units", ["updated_by"], :name => "index_units_on_updated_by"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "resident@resident.com", :null => false
@@ -52,12 +78,16 @@ ActiveRecord::Schema.define(:version => 20121127111357) do
     t.datetime "created_at",                                                  :null => false
     t.datetime "updated_at",                                                  :null => false
     t.integer  "unit_id"
+    t.integer  "created_by"
+    t.integer  "updated_by"
   end
 
+  add_index "users", ["created_by"], :name => "index_users_on_created_by"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["phone"], :name => "index_users_on_phone"
   add_index "users", ["pid"], :name => "index_users_on_pid"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["updated_by"], :name => "index_users_on_updated_by"
 
 end

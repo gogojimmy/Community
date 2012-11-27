@@ -1,0 +1,7 @@
+table.table.table-striped.table-bordered.table-hover.table-condensed
+  tbody
+    - comments.order('created_at DESC').each do |comment|
+      tr
+        td= comment.user.name
+        td= simple_format comment.body
+        td= l comment.created_at, format: :short

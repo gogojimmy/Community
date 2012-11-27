@@ -21,3 +21,8 @@
           td= @resident.car_num
           td= @resident.bike_num
           td= @resident.rent?
+
+    hr
+    header.page-header
+      h1 事件記錄
+    = render partial: 'shared/comments', locals: { comments: @resident.comment_threads }

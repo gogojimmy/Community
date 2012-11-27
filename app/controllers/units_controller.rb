@@ -9,6 +9,7 @@ class UnitsController < ApplicationController
 
   def update
     @unit = @building.units.find(params[:id])
+    @unit.updated_by = current_user
 
     if params[:unit][:resident_pid].present?
       @unit.resident = User.find_by_pid(params[:unit][:resident_pid])
@@ -34,6 +35,9 @@ class UnitsController < ApplicationController
                                                       :address,
                                                       :pin,
                                                       :management_fee))
+
+    @unit.created_by = current_user
+
     if params[:unit][:resident_pid].present?
       @unit.resident = User.find_by_pid(params[:unit][:resident_pid])
     end

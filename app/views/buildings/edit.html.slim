@@ -1,6 +1,9 @@
 .row
   .span12
     header.page-header
-      h1 編輯單位：#{@unit.address}
+      h1 編輯#{@building.building_name}
     = render 'form'
-
+    hr
+    header.page-header
+      h1 事件記錄
+    = render partial: 'shared/comments', locals: { comments: @building.comment_threads }
