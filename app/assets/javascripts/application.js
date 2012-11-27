@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require bootstrap-alert
+//= require bootstrap-tab
 //= require custom

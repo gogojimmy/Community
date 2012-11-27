@@ -16,6 +16,7 @@ html lang="zh"
             ul.nav
               li= link_to '住戶列表', residents_path
               li= link_to '大樓管理', buildings_path
+              li= link_to '住戶費用', payments_path
           ul.nav.pull-right
             - if current_user
               li= link_to current_user.name, '#'
