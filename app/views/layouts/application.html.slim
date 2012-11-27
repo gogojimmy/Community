@@ -12,11 +12,16 @@ html lang="zh"
       .navbar-inner
         .container
           a.brand href="/" 巴黎春天社區財務系統
-          - if current_user && current_user.has_permission?('operator')
+          - if current_user
             ul.nav
+              li= link_to '住戶列表', residents_path
           ul.nav.pull-right
             - if current_user
-              li= link_to current_user.username, '#'
+              li= link_to current_user.name, '#'
+              li= link_to '登出', destroy_user_session_path
+            - else
+              li= link_to '註冊', new_user_registration_path
+              li= link_to '登入', new_user_session_path
     /! end navbar
     #main.container
       - if flash.present?
