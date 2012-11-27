@@ -11,7 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126163437) do
+ActiveRecord::Schema.define(:version => 20121127111357) do
+
+  create_table "buildings", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "units", :force => true do |t|
+    t.integer  "building_id"
+    t.string   "num"
+    t.string   "address"
+    t.float    "pin"
+    t.integer  "management_fee"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "units", ["building_id"], :name => "index_units_on_building_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "resident@resident.com", :null => false
@@ -30,13 +48,12 @@ ActiveRecord::Schema.define(:version => 20121126163437) do
     t.string   "bike_num"
     t.boolean  "rent"
     t.string   "pid"
-    t.integer  "cell_id"
     t.string   "role",                   :default => "resident"
     t.datetime "created_at",                                                  :null => false
     t.datetime "updated_at",                                                  :null => false
+    t.integer  "unit_id"
   end
 
-  add_index "users", ["cell_id"], :name => "index_users_on_cell_id"
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["phone"], :name => "index_users_on_phone"
