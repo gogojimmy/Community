@@ -8,4 +8,6 @@ Community::Application.routes.draw do
   end
 
   resources :payments
+  resources :accounts
 end
+

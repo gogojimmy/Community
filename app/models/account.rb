@@ -1,17 +1,13 @@
 #encoding: utf-8
-class Building < ActiveRecord::Base
-  attr_accessible :name, :updated_by, :created_by
-  has_many :units, dependent: :destroy
+class Account < ActiveRecord::Base
+  attr_accessible :balance, :created_by, :name, :updated_by
+
   validates_presence_of :name
 
   after_create :build_create_comment
-  before_update :build_update_comment
+  after_update :build_update_comment
 
   acts_as_commentable
-
-  def building_name
-    self.name + '棟'
-  end
 
   def created_user
     User.find(self.created_by)

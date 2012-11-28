@@ -7,7 +7,7 @@ class Unit < ActiveRecord::Base
 
   acts_as_commentable
 
-  before_create :build_create_comment
+  after_create :build_create_comment
   before_update :build_update_comment
 
   def unit_num

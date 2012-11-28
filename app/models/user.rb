@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_many :payments
 
   validates_presence_of :name, :phone, :pid
-  before_create :build_create_comment
+  after_create :build_create_comment
   before_update :build_update_comment
 
   acts_as_commentable

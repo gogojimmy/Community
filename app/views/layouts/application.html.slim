@@ -14,8 +14,9 @@ html lang="zh"
           a.brand href="/" 巴黎春天社區財務系統
           - if current_user
             ul.nav
-              li= link_to '住戶列表', residents_path
               li= link_to '大樓管理', buildings_path
+              li= link_to '帳號管理', accounts_path
+              li= link_to '住戶列表', residents_path
               li= link_to '住戶費用', payments_path
           ul.nav.pull-right
             - if current_user
