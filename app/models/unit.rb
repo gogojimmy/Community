@@ -29,12 +29,12 @@ class Unit < ActiveRecord::Base
   protected
 
   def build_create_comment
-    comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
+    comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.address}")
     comment.save
   end
 
   def build_update_comment
-    comment = Comment.build_from(self, self.updated_by, "#{self.updated_user.name}更新了#{self.name}</br>更新內容：#{self.changes}")
+    comment = Comment.build_from(self, self.updated_by, "#{self.updated_user.name}更新了#{self.address}</br>更新內容：#{self.changes}")
     comment.save
   end
 end

@@ -9,5 +9,15 @@ Community::Application.routes.draw do
 
   resources :payments
   resources :accounts
+
+  resources :transactions do
+    collection do
+      post 'withdraw'
+      post 'deposit'
+      post 'transfer'
+    end
+  end
+
+  resources :transaction_types
 end
 

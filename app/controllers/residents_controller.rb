@@ -3,11 +3,7 @@ class ResidentsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    if params[:admin]
-      @residents = User.admins
-    else
-      @residents = User.current_residents.paginate(page: params[:page])
-    end
+    @residents = User.paginate(page: params[:page])
   end
 
   def show

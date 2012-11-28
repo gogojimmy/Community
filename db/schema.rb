@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128022947) do
+ActiveRecord::Schema.define(:version => 20121128035157) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",                      :null => false
@@ -70,6 +70,37 @@ ActiveRecord::Schema.define(:version => 20121128022947) do
   add_index "payments", ["updated_by"], :name => "index_payments_on_updated_by"
   add_index "payments", ["user_id"], :name => "index_payments_on_user_id"
 
+  create_table "transaction_types", :force => true do |t|
+    t.string   "name",        :null => false
+    t.text     "description"
+    t.string   "self_type"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "transaction_types", ["created_by"], :name => "index_transaction_types_on_created_by"
+  add_index "transaction_types", ["updated_by"], :name => "index_transaction_types_on_updated_by"
+
+  create_table "transactions", :force => true do |t|
+    t.integer  "from_account_id"
+    t.integer  "to_account_id"
+    t.integer  "transaction_type_id"
+    t.integer  "amount"
+    t.integer  "created_by"
+    t.integer  "updated_by"
+    t.text     "description"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "transactions", ["created_by"], :name => "index_transactions_on_created_by"
+  add_index "transactions", ["from_account_id"], :name => "index_transactions_on_from_account_id"
+  add_index "transactions", ["to_account_id"], :name => "index_transactions_on_to_account_id"
+  add_index "transactions", ["transaction_type_id"], :name => "index_transactions_on_transaction_type_id"
+  add_index "transactions", ["updated_by"], :name => "index_transactions_on_updated_by"
+
   create_table "units", :force => true do |t|
     t.integer  "building_id"
     t.string   "num"
@@ -103,10 +134,10 @@ ActiveRecord::Schema.define(:version => 20121128022947) do
     t.string   "bike_num"
     t.boolean  "rent"
     t.string   "pid"
+    t.integer  "unit_id"
     t.string   "role",                   :default => "resident"
     t.datetime "created_at",                                                  :null => false
     t.datetime "updated_at",                                                  :null => false
-    t.integer  "unit_id"
     t.integer  "created_by"
     t.integer  "updated_by"
   end
@@ -117,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20121128022947) do
   add_index "users", ["phone"], :name => "index_users_on_phone"
   add_index "users", ["pid"], :name => "index_users_on_pid"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["unit_id"], :name => "index_users_on_cell_id"
   add_index "users", ["updated_by"], :name => "index_users_on_updated_by"
 
 end

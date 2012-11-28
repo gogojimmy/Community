@@ -1,0 +1,6 @@
+= simple_form_for @transaction_type, html: { class: 'form-horizontal' } do |f|
+  = f.input :name, label: '名稱'
+  = f.input :self_type, as: :radio_buttons, collection: TransactionType::TYPES, label: '類型'
+  = f.input :description, label: '備註'
+  .form-actions
+    = f.submit '送出', class: 'btn btn-primary'

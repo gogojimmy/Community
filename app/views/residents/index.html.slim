@@ -3,32 +3,19 @@
     h1 住戶列表
     = link_to '新增住戶資料', new_resident_path, class: 'btn btn-primary pull-right'
     .clearfix
-    table.table.table-striped.table-bordered.table-hover.table-condensed
-      thead
-        tr
-          th 住戶
-          th 單位
-          th 身分證字號
-          th 電話
-          th 汽車車號
-          th 機車車號
-          th 是否租貸
-          th 操作
-      tbody
-        - @residents.each do |resident|
-          tr
-            td= resident.name
-            td= resident.unit_address
-            td= resident.pid
-            td= resident.phone
-            td= resident.car_num
-            td= resident.bike_num
-            td= resident.rent?
-            td.btn-group
-              = link_to edit_resident_path(resident), class: 'btn', rel: 'tooltip', title: '編輯' do
-                i.icon-edit
-              = link_to resident_path(resident), method: :delete, class: 'btn btn-danger' do
-                i.icon-remove
-
+    ul.nav.nav-tabs
+      li.active
+        a href="#residents" data-toggle="tab" 住戶
+      li
+        a href="#idle" data-toggle="tab" 非住戶
+      li
+        a href="#admin" data-toggle="tab" 管理員
+    .tab-content
+      #residents.tab-pane.active
+        = render partial: 'users', locals: { residents: @residents.current_residents }
+      #idle.tab-pane
+        = render partial: 'users', locals: { residents: @residents.idle }
+      #admin.tab-pane
+        = render partial: 'users', locals: { residents: @residents.admin }
   .span12
     = will_paginate @residents

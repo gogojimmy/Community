@@ -1,0 +1,41 @@
+.row
+  .span12
+    h1 交易類型列表
+    = link_to '新增交易類型', new_transaction_type_path, class: 'btn btn-primary pull-right'
+    .clearfix
+    ul.nav.nav-tabs
+      li.active
+        a href="#withdraw" data-toggle="tab" 支出
+      li
+        a href="#deposit" data-toggle="tab" 收入
+    .tab-content
+      .tab-pane.active#withdraw
+        table.table.table-striped.table-bordered.table-hover.table-condensed
+          thead
+            tr
+              th 名稱
+              th 描述
+              th 操作
+          tbody
+            - @transaction_types.withdraw_only.each do |type|
+              tr
+                td= type.name
+                td= type.description
+                td
+                  = link_to edit_transaction_type_path(type), class: 'btn', rel: 'tooltip', title: '編輯' do
+                    i.icon-edit
+      .tab-pane#deposit
+        table.table.table-striped.table-bordered.table-hover.table-condensed
+          thead
+            tr
+              th 名稱
+              th 描述
+              th 操作
+          tbody
+            - @transaction_types.deposit_only.each do |type|
+              tr
+                td= type.name
+                td= type.description
+                td
+                  = link_to edit_transaction_type_path(type), class: 'btn', rel: 'tooltip', title: '編輯' do
+                    i.icon-edit

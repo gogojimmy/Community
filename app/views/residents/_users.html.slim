@@ -1,0 +1,26 @@
+table.table.table-striped.table-bordered.table-hover.table-condensed
+  thead
+    tr
+      th 住戶
+      th 單位
+      th 身分證字號
+      th 電話
+      th 汽車車號
+      th 機車車號
+      th 是否租貸
+      th 操作
+  tbody
+    - residents.each do |resident|
+      tr
+        td= resident.name
+        td= resident.unit_address
+        td= resident.pid
+        td= resident.phone
+        td= resident.car_num
+        td= resident.bike_num
+        td= resident.rent?
+        td.btn-group
+          = link_to edit_resident_path(resident), class: 'btn', rel: 'tooltip', title: '編輯' do
+            i.icon-edit
+          = link_to resident_path(resident), method: :delete, class: 'btn btn-danger' do
+            i.icon-remove
