@@ -12,6 +12,7 @@ gem 'awesome_print'
 gem 'cells'
 gem 'meta-tags', :require => 'meta_tags'
 gem 'cancan'
+gem 'acts_as_commentable_with_threading'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

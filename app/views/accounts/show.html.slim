@@ -1,0 +1,8 @@
+.row
+  .span12
+    header.page-header
+      h1 #{@account.name}
+    h2 目前餘額：#{currency @account.balance}
+    hr
+    h2 處理記錄
+    = render partial: 'shared/comments', locals: { comments: @account.comment_threads }

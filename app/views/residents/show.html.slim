@@ -1,0 +1,54 @@
+.row
+  .span12
+    header.page-header
+      h1 #{@resident.name} 的資料
+    table.table.table-striped.table-bordered.table-hover.table-condensed
+      thead
+        tr
+          th 住戶
+          th 單位
+          th 身分證字號
+          th 電話
+          th 汽車車號
+          th 機車車號
+          th 是否租貸
+      tbody
+        tr
+          td= @resident.name
+          td= @resident.unit_address
+          td= @resident.pid
+          td= @resident.phone
+          td= @resident.car_num
+          td= @resident.bike_num
+          td= @resident.rent?
+
+    hr
+    ul.nav.nav-tabs
+      li.active
+        a href="#history" data-toggle="tab" 事件記錄
+      li
+        a href="#payments" data-toggle="tab" 費用歷史
+    .tab-content
+      .tab-pane.active#history
+        = render partial: 'shared/comments', locals: { comments: @resident.comment_threads }
+      .tab-pane#payments
+        table.table.table-striped.table-bordered.table-hover.table-condensed
+          thead
+            tr
+              th 日期
+              th 管理費
+              th 汽車清潔費
+              th 機車清潔費
+              th 總金額
+              th 結清
+              th 收據
+          tbody
+            - @resident.payments.each do |payment|
+              tr
+                td= l payment.created_at, format: '%Y年%b'
+                td= currency payment.management_fee
+                td= currency payment.car_fee
+                td= currency payment.bike_fee
+                td= currency payment.total_fee
+                td= l payment.paid_date, format: :short if payment.paid_date
+                td

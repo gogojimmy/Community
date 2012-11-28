@@ -1,0 +1,10 @@
+= f.input :name, label: '姓名'
+= f.input :pid, label: '身分證字號'
+= f.input :phone, label: '電話號碼'
+= f.input :car_num, label: '汽車車號'
+= f.input :bike_num, label: '機車車號'
+= f.association :unit, :as => :grouped_select, collection: Building.all, label_method: :unit_num, group_method: :units, group_label_method: :building_name, label: '居住單位'
+= f.input :rent, label: '是否為租貸'
+= f.input :role, as: :radio_buttons, collection: [['管理員', 'operator'], ['住戶', 'resident']], label: '身分'
+.form-actions
+  = f.submit '送出', class: 'btn btn-primary'

@@ -1,0 +1,21 @@
+.row
+  .span12
+    h1 住戶列表
+    = link_to '新增住戶資料', new_resident_path, class: 'btn btn-primary pull-right'
+    .clearfix
+    ul.nav.nav-tabs
+      li.active
+        a href="#residents" data-toggle="tab" 住戶
+      li
+        a href="#idle" data-toggle="tab" 非住戶
+      li
+        a href="#admin" data-toggle="tab" 管理員
+    .tab-content
+      #residents.tab-pane.active
+        = render partial: 'users', locals: { residents: @residents.current_residents }
+      #idle.tab-pane
+        = render partial: 'users', locals: { residents: @residents.idle }
+      #admin.tab-pane
+        = render partial: 'users', locals: { residents: @residents.admin }
+  .span12
+    = will_paginate @residents

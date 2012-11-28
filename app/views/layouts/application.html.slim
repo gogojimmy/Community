@@ -1,13 +1,40 @@
 doctype html
-html lang="zh_TW"
+html lang="zh"
   head
+    title 巴黎春天社區財務系統
     meta content="text/html; charset=utf-8" http-equiv="Content-Type"
     = stylesheet_link_tag    "application"
     = csrf_meta_tags
     meta name="viewport" content="width=device-width" initial-scale="1.0"
     meta charset="UTF-8"
   body
-    .container
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.brand href="/" 巴黎春天社區財務系統
+          - if current_user
+            ul.nav
+              li= link_to '大樓管理', buildings_path
+              li= link_to '帳號管理', accounts_path
+              li= link_to '住戶列表', residents_path
+              li= link_to '住戶費用', payments_path
+              li.dropdown
+                = link_to "#", class: 'dropdown-toggle', data: { 'toggle' => 'dropdown' } do
+                  '交易管理
+                  b.caret
+                ul.dropdown-menu
+                  li= link_to '新增交易', new_transaction_path
+                  li= link_to '交易類型管理', transaction_types_path
+
+          ul.nav.pull-right
+            - if current_user
+              li= link_to current_user.name, '#'
+              li= link_to '登出', destroy_user_session_path, method: :delete
+            - else
+              li= link_to '註冊', new_user_registration_path
+              li= link_to '登入', new_user_session_path
+    /! end navbar
+    #main.container
       - if flash.present?
         .row
           - flash.each do |name, msg|
@@ -17,5 +44,6 @@ html lang="zh_TW"
                   div{class="alert alert-#{name == :notice ? "success" : "error"}"}
                     a.close data-dismiss="alert" &times;
                     = simple_format(msg)
-        = yield
+      = yield
+    hr
     = javascript_include_tag "application"
