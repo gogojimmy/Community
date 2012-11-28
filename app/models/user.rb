@@ -11,9 +11,13 @@ class User < ActiveRecord::Base
   belongs_to :unit
   has_many :payments
 
+  scope :admin, where(role: 'operator')
+  scope :current_residents, where("unit_id IS NOT NULL")
+  scope :idle, where("unit_id IS NULL").where(role: 'resident')
+
   validates_presence_of :name, :phone, :pid
-  before_create :build_create_comment
-  before_update :build_update_comment
+  #after_create :build_create_comment
+  #before_update :build_update_comment
 
   acts_as_commentable
 
@@ -23,10 +27,6 @@ class User < ActiveRecord::Base
 
   def has_permission?(permission)
     ROLES[self.role] >= ROLES[permission.to_s]
-  end
-
-  def self.current_residents
-    where("unit_id IS NOT NULL")
   end
 
   def build_payment(user)
@@ -65,8 +65,10 @@ class User < ActiveRecord::Base
   protected
 
   def build_create_comment
-    comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
-    comment.save
+    if self.id != 1
+      comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
+      comment.save
+    end
   end
 
   def build_update_comment

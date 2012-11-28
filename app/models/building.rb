@@ -4,7 +4,7 @@ class Building < ActiveRecord::Base
   has_many :units, dependent: :destroy
   validates_presence_of :name
 
-  before_create :build_create_comment
+  after_create :build_create_comment
   before_update :build_update_comment
 
   acts_as_commentable

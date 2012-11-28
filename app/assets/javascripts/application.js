@@ -15,4 +15,5 @@
 //= require jquery.ui.all
 //= require bootstrap-alert
 //= require bootstrap-tab
+//= require bootstrap-dropdown
 //= require custom

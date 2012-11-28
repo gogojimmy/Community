@@ -4,7 +4,7 @@ class Payment < ActiveRecord::Base
 
   belongs_to :resident, class_name: 'User', foreign_key: 'user_id'
 
-  before_create :build_create_comment
+  after_create :build_create_comment
   before_update :build_update_comment
 
   acts_as_commentable
