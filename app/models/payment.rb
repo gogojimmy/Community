@@ -1,8 +1,8 @@
 #encoding: utf-8
 class Payment < ActiveRecord::Base
-  attr_accessible :bike_fee, :car_fee, :created_by, :management_fee, :paid_date, :updated_by, :user_id
+  attr_accessible :bike_fee, :car_fee, :created_by, :management_fee, :paid_date, :updated_by, :resident_id
 
-  belongs_to :resident, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :resident
 
   after_create :build_create_comment
   before_update :build_update_comment
@@ -10,7 +10,7 @@ class Payment < ActiveRecord::Base
   acts_as_commentable
 
   def self.create_this_month_fee(user)
-    User.current_residents.each do |resident|
+    Resident.current_residents.each do |resident|
       resident.build_payment(user)
     end
   end

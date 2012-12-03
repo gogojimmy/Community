@@ -15,6 +15,8 @@ Community::Application.routes.draw do
       post 'withdraw'
       post 'deposit'
       post 'transfer'
+      get 'residents'
+      post 'pay_management_fees'
     end
   end
 

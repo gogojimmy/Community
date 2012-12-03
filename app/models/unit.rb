@@ -3,7 +3,8 @@ class Unit < ActiveRecord::Base
   attr_accessible :address, :building_id, :management_fee, :num, :pin, :updated_by, :created_by
   validates_presence_of :address, :management_fee, :num, :pin
   belongs_to :building
-  has_one :resident, class_name: 'User'
+  has_one :resident
+  delegate :name, to: :resident, allow_nil: true, prefix: true
 
   acts_as_commentable
 
@@ -12,10 +13,6 @@ class Unit < ActiveRecord::Base
 
   def unit_num
     self.num + "號"
-  end
-
-  def resident_name
-    self.resident.try(:name)
   end
 
   def created_user

@@ -1,7 +1,10 @@
 .row
   .span12
     header.page-header
-      h1 #{@resident.name} 的資料
+      h1.pull-left #{@resident.name} 的資料
+      = link_to '編輯', edit_resident_path(@resident), class: 'btn btn-primary btn-large pull-right'
+      .clearfix
+
     table.table.table-striped.table-bordered.table-hover.table-condensed
       thead
         tr
