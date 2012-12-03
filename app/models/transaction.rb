@@ -13,6 +13,10 @@ class Transaction < ActiveRecord::Base
 
   scope :today_records, where("DATE(created_at) = DATE(?)", Time.now)
 
+  def self.belongs_to_account(account)
+    where("to_account_id = #{account.id} OR from_account_id = #{account.id}")
+  end
+
   def created_user
     User.find(self.created_by)
   end

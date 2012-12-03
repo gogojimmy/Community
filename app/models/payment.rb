@@ -22,6 +22,9 @@ class Payment < ActiveRecord::Base
     Resident.current_residents.each do |resident|
       resident.build_payment(user)
     end
+    Account.all.each do |account|
+      account.checkout(user)
+    end
   end
 
   def month

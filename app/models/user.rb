@@ -6,5 +6,6 @@ class User < ActiveRecord::Base
   attr_accessible :password, :password_confirmation, :remember_me, :email, :name, :phone, :pid
 
   validates_presence_of :name, :phone, :pid
+  has_many :balances
 
 end
