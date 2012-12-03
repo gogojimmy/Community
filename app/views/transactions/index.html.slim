@@ -2,4 +2,4 @@
   .span12
     h1 本日交易
     .clearfix
-    = render 'transactions', locals: { transactions: @transactions }
+    = render partial: 'transactions', locals: { transactions: @transactions }
