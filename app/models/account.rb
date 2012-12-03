@@ -11,6 +11,10 @@ class Account < ActiveRecord::Base
 
   acts_as_commentable
 
+  def self.cash_id
+    self.find_by_name('現金').id
+  end
+
   def created_user
     User.find(self.created_by)
   end

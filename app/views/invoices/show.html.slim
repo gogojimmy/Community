@@ -1,0 +1,123 @@
+h1.center-text 巴黎春天社區管理費收繳單
+hr
+.invoice-description
+  .row
+    .span5
+      strong 收款單號: #{@invoice.num}
+      br
+      strong 收款人員: #{current_user.name}
+    .span5.pull-right
+      strong 入帳日期: #{l @invoice.created_at, :format => :long}
+      br
+      strong 列印日期: #{l @invoice.created_at, :format => :long}
+hr
+table.table.table-bordered.table-condensed.table-striped*["width" => "100%"]
+  tr
+    th.center*{"rowspan" => 4, "width" => "10%"}
+      strong 住戶
+    th*{"width" => "15%"}
+      strong 屋主
+    td= @invoice.resident.name
+    th*{"width" => "15%"}
+      strong 戶號
+    td= @invoice.resident.unit_num
+    tr
+      th 地址
+      td= @invoice.resident.unit_address
+      th 區棟別
+      td= @invoice.resident.building_unit
+    tr
+      th 機車車號
+      td= @invoice.resident.bike_num
+      th 汽車車號
+      td= @invoice.resident.car_num
+    tr
+      th 坪數
+      td colspan=3 #{@invoice.resident.unit_pin} 坪
+h2 本次繳款明細如下：
+br
+table.table.table-bordered.table-condensed.table-striped
+  tr
+    th.center*{"width" => "10%"}
+      h3 期間
+    th.center*{"width" => "20%"}
+      h3 社區管理費
+    th.center*{"width" => "20%"}
+      h3 汽車停車費
+    th.center*{"width" => "20%"}
+      h3 機車停車費
+    th.center
+      h3 合計
+  - @invoice.payments.each_with_index do |payment, index|
+    tr
+      td.center= l payment.created_at, :format => "%Y/%m"
+      td.right= currency payment.management_fee
+      td.right= currency payment.car_fee
+      td.right= currency payment.bike_fee
+      - if index == 0
+        td.center*{'rowspan' => "#{@invoice.payments.size}"} #{currency @invoice.payments.map(&:total_fee).sum}
+br
+hr
+br
+- if @invoice.payments.count > 6
+  .page-break
+h1.center-text 巴黎春天社區管理費收繳單
+hr
+.invoice-description
+  .row
+    .span5
+      strong 收款單號: #{@invoice.num}
+      br
+      strong 收款人員: #{current_user.name}
+    .span5.pull-right
+      strong 入帳日期: #{l @invoice.created_at, :format => :long}
+      br
+      strong 列印日期: #{l @invoice.created_at, :format => :long}
+hr
+table.table.table-bordered.table-condensed.table-striped*["width" => "100%"]
+  tr
+    th.center*{"rowspan" => 4, "width" => "10%"}
+      strong 住戶
+    th*{"width" => "15%"}
+      strong 屋主
+    td= @invoice.resident.name
+    th*{"width" => "15%"}
+      strong 戶號
+    td= @invoice.resident.unit_num
+    tr
+      th 地址
+      td= @invoice.resident.unit_address
+      th 區棟別
+      td= @invoice.resident.building_unit
+    tr
+      th 機車車號
+      td= @invoice.resident.bike_num
+      th 汽車車號
+      td= @invoice.resident.car_num
+    tr
+      th 坪數
+      td colspan=3 #{@invoice.resident.unit_pin} 坪
+h2 本次繳款明細如下：
+br
+table.table.table-bordered.table-condensed.table-striped
+  tr
+    th.center*{"width" => "10%"}
+      h3 期間
+    th.center*{"width" => "20%"}
+      h3 社區管理費
+    th.center*{"width" => "20%"}
+      h3 汽車停車費
+    th.center*{"width" => "20%"}
+      h3 機車停車費
+    th.center
+      h3 合計
+  - @invoice.payments.each_with_index do |payment, index|
+    tr
+      td.center= l payment.created_at, :format => "%Y/%m"
+      td.right= currency payment.management_fee
+      td.right= currency payment.car_fee
+      td.right= currency payment.bike_fee
+      - if index == 0
+        td.center*{'rowspan' => "#{@invoice.payments.size}"} #{currency @invoice.payments.map(&:total_fee).sum}
+= link_to '回系統', root_path, class: 'btn pull-right hide-when-print'
+button.pull-right.btn.btn-primary.hide-when-print type="button" onclick="print()" 列印

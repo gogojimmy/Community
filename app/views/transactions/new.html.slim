@@ -12,24 +12,27 @@
     .tab-content
       .tab-pane.active#withdraw
         = simple_form_for @transaction, url: withdraw_transactions_path, html: { class: 'form-horizontal' } do |f|
-          = f.association :transaction_type, label: '支出類型', collection: TransactionType.withdraw_only
-          = f.association :from_account, label: '從帳戶'
+          = f.association :transaction_type, label: '支出類型', collection: TransactionType.withdraw_only, prompt: '選擇支出種類'
+          = f.association :from_account, label: '從帳戶', label_method: lambda { |account| name_with_balance account }, value_method: :id, prompt: '選擇帳戶'
+
           = f.input :amount, label: '金額'
           = f.input :description, label: '備註', input_html: { rows: 10 }
           .form-actions
             = f.submit '送出', class: 'btn btn-primar'
       .tab-pane#deposit
         = simple_form_for @transaction, url: deposit_transactions_path, html: { class: 'form-horizontal' } do |f|
-          = f.association :transaction_type, label: '收入類型', collection: TransactionType.deposit_only
-          = f.association :to_account, label: '至帳戶'
+          = f.association :transaction_type, label: '收入類型', collection: TransactionType.deposit_only, prompt:'選擇收入種類'
+          = f.association :to_account, label: '至帳戶', label_method: lambda { |account| name_with_balance account }, value_method: :id, prompt: '選擇帳戶'
           = f.input :amount, label: '金額'
           = f.input :description, label: '備註', input_html: { rows: 10 }
           .form-actions
             = f.submit '送出', class: 'btn btn-primar'
       .tab-pane#transfer
         = simple_form_for @transaction, url: transfer_transactions_path, html: { class: 'form-horizontal' } do |f|
-          = f.association :from_account, label: '從帳戶'
-          = f.association :to_account, label: '至帳戶'
+          = f.association :from_account, label: '從帳戶', label_method: lambda { |account| name_with_balance account }, value_method: :id, prompt: '選擇帳戶'
+
+          = f.association :to_account, label: '至帳戶', label_method: lambda { |account| name_with_balance account }, value_method: :id, prompt: '選擇帳戶'
+
           = f.input :amount, label: '金額'
           = f.input :description, label: '備註', input_html: { rows: 10 }
           .form-actions

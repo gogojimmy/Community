@@ -7,7 +7,8 @@
         tr
           th 交易時間
           th 處理人
-          th 交易類型
+          th 收入/支出/轉帳
+          th 交易分類
           th 備註
           th 交易金額
       tbody
@@ -16,5 +17,6 @@
             td= l transaction.created_at, format: :short
             td= transaction.created_user.name
             td= show_transaction_type_badge(transaction)
+            td= transaction.transaction_type.try(:name)
             td= transaction.description
             td= currency transaction.amount

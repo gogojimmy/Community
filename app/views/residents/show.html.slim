@@ -1,7 +1,10 @@
 .row
   .span12
     header.page-header
-      h1 #{@resident.name} 的資料
+      h1.pull-left #{@resident.name} 的資料
+      = link_to '編輯', edit_resident_path(@resident), class: 'btn btn-primary btn-large pull-right'
+      .clearfix
+
     table.table.table-striped.table-bordered.table-hover.table-condensed
       thead
         tr
@@ -32,23 +35,31 @@
       .tab-pane.active#history
         = render partial: 'shared/comments', locals: { comments: @resident.comment_threads }
       .tab-pane#payments
-        table.table.table-striped.table-bordered.table-hover.table-condensed
-          thead
-            tr
-              th 日期
-              th 管理費
-              th 汽車清潔費
-              th 機車清潔費
-              th 總金額
-              th 結清
-              th 收據
-          tbody
-            - @resident.payments.each do |payment|
+        = form_tag resident_invoices_path(@resident) do
+          table.table.table-striped.table-bordered.table-hover.table-condensed
+            thead
               tr
-                td= l payment.created_at, format: '%Y年%b'
-                td= currency payment.management_fee
-                td= currency payment.car_fee
-                td= currency payment.bike_fee
-                td= currency payment.total_fee
-                td= l payment.paid_date, format: :short if payment.paid_date
-                td
+                th
+                th 日期
+                th 管理費
+                th 汽車清潔費
+                th 機車清潔費
+                th 總金額
+                th 結清
+                th 收據
+            tbody
+              - @resident.payments.each do |payment|
+                tr
+                  td= check_box_tag 'payment_ids[]', payment.id unless payment.paid?
+                  td= l payment.created_at, format: '%Y年%b'
+                  td= currency payment.management_fee
+                  td= currency payment.car_fee
+                  td= currency payment.bike_fee
+                  td= currency payment.total_fee
+                  td= l payment.paid_date, format: :short if payment.paid_date
+                  td= link_to payment.invoice_num, invoice_path(payment.invoice), target: '_blank' if payment.paid?
+          label 繳費
+          '
+          = select_tag "account_id", options_from_collection_for_select(@accounts, :id, :name, Account.cash_id)
+          '
+          = submit_tag "繳費並列印收據", :class => 'btn btn-primary'

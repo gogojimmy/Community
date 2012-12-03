@@ -11,5 +11,7 @@
  *= require_self
  *= require 'font-awesome'
  *= require jquery.ui.all
- *= require_tree .
+ *= require ie
+ *= require screen
+ *= require styles
  */

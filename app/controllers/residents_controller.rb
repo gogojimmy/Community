@@ -3,20 +3,20 @@ class ResidentsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @residents = User.paginate(page: params[:page])
+    @residents = Resident.paginate(page: params[:page])
   end
 
   def show
-    @resident = User.find(params[:id])
+    @resident = Resident.find(params[:id])
+    @accounts = Account.all
   end
 
   def new
-    @resident = User.new
+    @resident = Resident.new
   end
 
   def create
-    @resident = User.new(params[:user])
-    @resident.password = Devise.friendly_token.first(6)
+    @resident = Resident.new(params[:resident])
     @resident.created_by = current_user
 
     if @resident.save
@@ -27,14 +27,14 @@ class ResidentsController < ApplicationController
   end
 
   def edit
-    @resident = User.find(params[:id])
+    @resident = Resident.find(params[:id])
   end
 
   def update
-    @resident = User.find(params[:id])
+    @resident = Resident.find(params[:id])
     @resident.updated_by = current_user
 
-    if @resident.update_attributes(params[:user])
+    if @resident.update_attributes(params[:resident])
       redirect_to resident_path(@resident), notice: "成功更新了#{@resident.name}的資料"
     end
   end
