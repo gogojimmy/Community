@@ -13,6 +13,9 @@ class Payment < ActiveRecord::Base
 
   delegate :num, to: :invoice, allow_nil: true, prefix: true
 
+  scope :paid_records, where('paid_date IS NOT NULL')
+  scope :unpaid_records, where('paid_date IS NULL')
+
   acts_as_commentable
 
   def self.create_this_month_fee(user)

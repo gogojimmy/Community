@@ -16,8 +16,13 @@ html lang="zh"
             ul.nav
               li= link_to '大樓管理', buildings_path
               li= link_to '帳號管理', accounts_path
-              li= link_to '住戶管理', residents_path
-              li= link_to '住戶費用', payments_path
+              li.dropdown
+                = link_to "#", class: 'dropdown-toggle', data: { 'toggle' => 'dropdown' } do
+                  '住戶管理
+                  b.caret
+                ul.dropdown-menu
+                  li= link_to '住戶資料管理', residents_path
+                  li= link_to '住戶費用管理', payments_path
               li.dropdown
                 = link_to "#", class: 'dropdown-toggle', data: { 'toggle' => 'dropdown' } do
                   '交易管理

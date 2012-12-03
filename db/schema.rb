@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(:version => 20121203082244) do
   create_table "invoices", :force => true do |t|
     t.string   "invoice_type"
     t.string   "num"
-    t.integer  "payment_id"
     t.integer  "amount"
     t.integer  "resident_id"
     t.datetime "created_at",   :null => false
@@ -65,7 +64,6 @@ ActiveRecord::Schema.define(:version => 20121203082244) do
   end
 
   add_index "invoices", ["invoice_type"], :name => "index_invoices_on_invoice_type"
-  add_index "invoices", ["payment_id"], :name => "index_invoices_on_payment_id"
   add_index "invoices", ["resident_id"], :name => "index_invoices_on_resident_id"
 
   create_table "payments", :force => true do |t|

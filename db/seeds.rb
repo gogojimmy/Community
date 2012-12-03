@@ -8,3 +8,5 @@ end
 Account.create(name: '現金', created_by: 1)
 
 TransactionType.create(name: '管理費收入', self_type: '收入', description: '住戶管理費收入')
+TransactionType.create(name: '汽車清潔費收入', self_type: '收入', description: '住戶管理費收入')
+TransactionType.create(name: '機車清潔費收入', self_type: '收入', description: '住戶管理費收入')

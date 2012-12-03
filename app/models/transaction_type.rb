@@ -10,4 +10,12 @@ class TransactionType < ActiveRecord::Base
   def self.management_fee
     where(name: '管理費收入').first
   end
+
+  def self.car_fee
+    where(name: '汽車清潔費收入').first
+  end
+
+  def self.bike_fee
+    where(name: '機車清潔費收入').first
+  end
 end

@@ -3,14 +3,12 @@ class CreateInvoices < ActiveRecord::Migration
     create_table :invoices do |t|
       t.string :invoice_type
       t.string :num
-      t.integer :payment_id
       t.integer :amount
       t.integer :resident_id
 
       t.timestamps
     end
     add_index :invoices, :invoice_type
-    add_index :invoices, :payment_id
     add_index :invoices, :resident_id
     add_column :payments, :invoice_id, :integer
     add_index :payments, :invoice_id
