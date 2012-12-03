@@ -8,6 +8,7 @@ class ResidentsController < ApplicationController
 
   def show
     @resident = Resident.find(params[:id])
+    @accounts = Account.all
   end
 
   def new
@@ -33,7 +34,7 @@ class ResidentsController < ApplicationController
     @resident = Resident.find(params[:id])
     @resident.updated_by = current_user
 
-    if @resident.update_attributes(params[:user])
+    if @resident.update_attributes(params[:resident])
       redirect_to resident_path(@resident), notice: "成功更新了#{@resident.name}的資料"
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121203070333) do
+ActiveRecord::Schema.define(:version => 20121203082244) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",                      :null => false
@@ -54,19 +54,35 @@ ActiveRecord::Schema.define(:version => 20121203070333) do
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
+  create_table "invoices", :force => true do |t|
+    t.string   "invoice_type"
+    t.string   "num"
+    t.integer  "payment_id"
+    t.integer  "amount"
+    t.integer  "resident_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "invoices", ["invoice_type"], :name => "index_invoices_on_invoice_type"
+  add_index "invoices", ["payment_id"], :name => "index_invoices_on_payment_id"
+  add_index "invoices", ["resident_id"], :name => "index_invoices_on_resident_id"
+
   create_table "payments", :force => true do |t|
-    t.integer  "management_fee"
-    t.integer  "car_fee"
-    t.integer  "bike_fee"
+    t.integer  "management_fee", :default => 0
+    t.integer  "car_fee",        :default => 0
+    t.integer  "bike_fee",       :default => 0
     t.integer  "created_by"
     t.integer  "updated_by"
     t.datetime "paid_date"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "resident_id"
+    t.integer  "invoice_id"
   end
 
   add_index "payments", ["created_by"], :name => "index_payments_on_created_by"
+  add_index "payments", ["invoice_id"], :name => "index_payments_on_invoice_id"
   add_index "payments", ["resident_id"], :name => "index_payments_on_resident_id"
   add_index "payments", ["updated_by"], :name => "index_payments_on_updated_by"
 
@@ -116,10 +132,12 @@ ActiveRecord::Schema.define(:version => 20121203070333) do
     t.text     "description"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
+    t.integer  "invoice_id"
   end
 
   add_index "transactions", ["created_by"], :name => "index_transactions_on_created_by"
   add_index "transactions", ["from_account_id"], :name => "index_transactions_on_from_account_id"
+  add_index "transactions", ["invoice_id"], :name => "index_transactions_on_invoice_id"
   add_index "transactions", ["to_account_id"], :name => "index_transactions_on_to_account_id"
   add_index "transactions", ["transaction_type_id"], :name => "index_transactions_on_transaction_type_id"
   add_index "transactions", ["updated_by"], :name => "index_transactions_on_updated_by"
@@ -141,8 +159,8 @@ ActiveRecord::Schema.define(:version => 20121203070333) do
   add_index "units", ["updated_by"], :name => "index_units_on_updated_by"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "resident@resident.com", :null => false
-    t.string   "encrypted_password",     :default => "",                      :null => false
+    t.string   "email",                                 :null => false
+    t.string   "encrypted_password",                    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -154,8 +172,8 @@ ActiveRecord::Schema.define(:version => 20121203070333) do
     t.string   "name"
     t.string   "phone"
     t.string   "pid"
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

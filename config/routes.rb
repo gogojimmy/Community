@@ -1,7 +1,9 @@
 Community::Application.routes.draw do
   devise_for :users
   root to: 'welcome#dashboard'
-  resources :residents
+  resources :residents do
+    resources :invoices, only: [:create]
+  end
 
   resources :buildings do
     resources :units
@@ -21,5 +23,7 @@ Community::Application.routes.draw do
   end
 
   resources :transaction_types
+
+  resources :invoices
 end
 

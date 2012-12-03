@@ -3,6 +3,7 @@ class Resident < ActiveRecord::Base
   attr_accessible :bike_num, :car_num, :created_by, :name, :phone, :pid, :rent, :unit_id, :updated_by
 
   acts_as_commentable
+
   after_create :build_create_comment
   before_update :build_update_comment
 
@@ -15,13 +16,20 @@ class Resident < ActiveRecord::Base
   scope :current_residents, where("unit_id IS NOT NULL")
   scope :idle, where("unit_id IS NULL")
 
+  delegate :num, :address, :building, :pin, to: :unit, allow_nil: true, prefix: true
+
   def build_payment(user)
     payment = self.payments.build
     payment.management_fee = self.unit.management_fee
-    payment.car_fee = CAR_FEE if self.car_num
-    payment.bike_fee = BIKE_FEE if self.bike_num
+    payment.car_fee = CAR_FEE if self.car_num.present?
+    payment.bike_fee = BIKE_FEE if self.bike_num.present?
     payment.created_by = user.id
     payment.save
+  end
+
+  def building_unit
+    return if self.unit.nil?
+    "#{self.unit.building.building_name}-#{self.unit.unit_num}"
   end
 
   def unit_address
@@ -31,6 +39,7 @@ class Resident < ActiveRecord::Base
   def management_fee
     self.unit.try(:management_fee)
   end
+
   def created_user
     User.find(self.created_by)
   end
@@ -42,10 +51,8 @@ class Resident < ActiveRecord::Base
   protected
 
   def build_create_comment
-    if self.id != 1
-      comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
-      comment.save
-    end
+    comment = Comment.build_from(self, self.created_by, "#{self.created_user.name}建立了#{self.name}")
+    comment.save
   end
 
   def build_update_comment

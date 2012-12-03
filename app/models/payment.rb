@@ -1,11 +1,17 @@
 #encoding: utf-8
 class Payment < ActiveRecord::Base
-  attr_accessible :bike_fee, :car_fee, :created_by, :management_fee, :paid_date, :updated_by, :resident_id
+  attr_accessible :bike_fee, :car_fee, :created_by, :management_fee, :paid_date, :updated_by, :resident_id, :transactions_attributes, :invoice
 
   belongs_to :resident
+  belongs_to :invoice
+  has_many :transactions
+  accepts_nested_attributes_for :transactions,
+                                :reject_if => lambda { |a| a[:amount].blank? }
 
   after_create :build_create_comment
   before_update :build_update_comment
+
+  delegate :num, to: :invoice, allow_nil: true, prefix: true
 
   acts_as_commentable
 
@@ -13,6 +19,21 @@ class Payment < ActiveRecord::Base
     Resident.current_residents.each do |resident|
       resident.build_payment(user)
     end
+  end
+
+  def month
+    I18n.l self.created_at.beginning_of_month, format: '%B'
+  end
+
+  def pay(invoice, user)
+    update_attributes(paid_date: Time.now,
+                      invoice: invoice,
+                      updated_by: user.id)
+    save!
+  end
+
+  def paid?
+    self.paid_date?
   end
 
   def created_user

@@ -1,3 +1,31 @@
-/* Welcome to Compass. Use this file to define print styles.
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+@import "bootstrap";
+
+body {
+  padding: 40px;
+}
+
+.center { text-align: center; }
+
+table {
+  .center {
+    vertical-align: middle;
+    text-align: center;
+  }
+  .right {
+    text-align: right;
+  }
+}
+
+.center-text {
+  text-align: center;
+}
+
+@media print {
+  .hide-when-print {
+    display: none;
+  }
+}
+
+.page-break {
+  page-break-before: always;
+}
