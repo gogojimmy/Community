@@ -9,7 +9,22 @@ class Account < ActiveRecord::Base
 
   validates_numericality_of :balance, greater_than_or_equal_to: 0
 
+  has_many :balances
+
   acts_as_commentable
+
+  def checkout(user)
+    self.balances.create(amount: self.balance,
+                         user: user)
+  end
+
+  def transactions
+    Transaction.belongs_to_account(self)
+  end
+
+  def self.cash_id
+    self.find_by_name('現金').id
+  end
 
   def created_user
     User.find(self.created_by)

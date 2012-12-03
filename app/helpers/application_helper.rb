@@ -4,6 +4,10 @@ module ApplicationHelper
     number_to_currency price, :precision => 0
   end
 
+  def name_with_balance(account)
+    "#{account.name} 餘額：#{currency account.balance}"
+  end
+
   def show_transaction_type_badge(transaction)
     if transaction.from_account.present? && transaction.to_account.present?
       content_tag(:span, "轉帳", :class => 'label label-info')

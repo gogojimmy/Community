@@ -1,7 +1,10 @@
 .row
   .span12
     header.page-header
-      h1 #{@resident.name} 的資料
+      h1.pull-left #{@resident.name} 的資料
+      = link_to '編輯', edit_resident_path(@resident), class: 'btn btn-primary btn-large pull-right'
+      .clearfix
+
     table.table.table-striped.table-bordered.table-hover.table-condensed
       thead
         tr
@@ -25,13 +28,38 @@
     hr
     ul.nav.nav-tabs
       li.active
-        a href="#history" data-toggle="tab" 事件記錄
+        a href="#unpaid_payments" data-toggle="tab" 待繳費用
       li
-        a href="#payments" data-toggle="tab" 費用歷史
+        a href="#paid_payments" data-toggle="tab" 繳費記錄
+      li
+        a href="#history" data-toggle="tab" 事件記錄
     .tab-content
-      .tab-pane.active#history
-        = render partial: 'shared/comments', locals: { comments: @resident.comment_threads }
-      .tab-pane#payments
+      .tab-pane.active#unpaid_payments
+        = form_tag resident_invoices_path(@resident) do
+          table.table.table-striped.table-bordered.table-hover.table-condensed
+            thead
+              tr
+                th
+                th 日期
+                th 管理費
+                th 汽車清潔費
+                th 機車清潔費
+                th 總金額
+            tbody
+              - @resident.payments.unpaid_records.each do |payment|
+                tr
+                  td= check_box_tag 'payment_ids[]', payment.id unless payment.paid?
+                  td= l payment.created_at, format: '%Y年%b'
+                  td= currency payment.management_fee
+                  td= currency payment.car_fee
+                  td= currency payment.bike_fee
+                  td= currency payment.total_fee
+          label 繳費
+          '
+          = select_tag "account_id", options_from_collection_for_select(@accounts, :id, :name, Account.cash_id)
+          '
+          = submit_tag "繳費並列印收據", :class => 'btn btn-primary'
+      .tab-pane#paid_payments
         table.table.table-striped.table-bordered.table-hover.table-condensed
           thead
             tr
@@ -43,12 +71,14 @@
               th 結清
               th 收據
           tbody
-            - @resident.payments.each do |payment|
+            - @resident.payments.paid_records.each do |payment|
               tr
                 td= l payment.created_at, format: '%Y年%b'
                 td= currency payment.management_fee
                 td= currency payment.car_fee
                 td= currency payment.bike_fee
                 td= currency payment.total_fee
-                td= l payment.paid_date, format: :short if payment.paid_date
-                td
+                td= l payment.paid_date, format: :short
+                td= link_to payment.invoice_num, invoice_path(payment.invoice), target: '_blank'
+      .tab-pane#history
+        = render partial: 'shared/comments', locals: { comments: @resident.comment_threads }

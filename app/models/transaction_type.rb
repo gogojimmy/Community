@@ -6,4 +6,16 @@ class TransactionType < ActiveRecord::Base
 
   scope :deposit_only, where(self_type: '收入')
   scope :withdraw_only, where(self_type: '支出')
+
+  def self.management_fee
+    where(name: '管理費收入').first
+  end
+
+  def self.car_fee
+    where(name: '汽車清潔費收入').first
+  end
+
+  def self.bike_fee
+    where(name: '機車清潔費收入').first
+  end
 end

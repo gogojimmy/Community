@@ -4,5 +4,28 @@
       h1 #{@account.name}
     h2 目前餘額：#{currency @account.balance}
     hr
-    h2 處理記錄
-    = render partial: 'shared/comments', locals: { comments: @account.comment_threads }
+    ul.nav.nav-tabs
+      li.active
+        a href="#transaction" data-toggle="tab" 交易記錄
+      li
+        a href="#checkout" data-toggle="tab" 結帳記錄
+      li
+        a href="#comments" data-toggle="tab" 處理記錄
+    .tab-content
+      .tab-pane.active#transaction
+        = render partial: 'transactions/transactions', locals: { transactions: @account.transactions }
+      .tab-pane#checkout
+        table.table.table-striped.table-bordered.table-hover.table-condensed
+          thead
+            tr
+              th 結帳日期
+              th 處理人
+              th 餘額
+          tbody
+            - @account.balances.each do |balance|
+              tr
+                td= l balance.created_at, format: :short
+                td= balance.user.name
+                td= balance.amount
+      .tab-pane#comments
+        = render partial: 'shared/comments', locals: { comments: @account.comment_threads }

@@ -12,10 +12,8 @@
         a href="#admin" data-toggle="tab" 管理員
     .tab-content
       #residents.tab-pane.active
-        = render partial: 'users', locals: { residents: @residents.current_residents }
+        = render partial: 'residents', locals: { residents: @residents.current_residents }
       #idle.tab-pane
-        = render partial: 'users', locals: { residents: @residents.idle }
-      #admin.tab-pane
-        = render partial: 'users', locals: { residents: @residents.admin }
+        = render partial: 'residents', locals: { residents: @residents.idle }
   .span12
     = will_paginate @residents

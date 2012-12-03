@@ -1,9 +1,9 @@
 class CreatePayments < ActiveRecord::Migration
   def change
     create_table :payments do |t|
-      t.integer :management_fee
-      t.integer :car_fee
-      t.integer :bike_fee
+      t.integer :management_fee, default: 0
+      t.integer :car_fee, default: 0
+      t.integer :bike_fee, default: 0
       t.integer :created_by
       t.integer :updated_by
       t.integer :user_id

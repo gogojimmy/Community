@@ -9,8 +9,13 @@ class Transaction < ActiveRecord::Base
   belongs_to :to_account, class_name: 'Account', foreign_key: 'to_account_id'
   belongs_to :from_account, class_name: 'Account', foreign_key: 'from_account_id'
   belongs_to :transaction_type
+  belongs_to :invoice
 
   scope :today_records, where("DATE(created_at) = DATE(?)", Time.now)
+
+  def self.belongs_to_account(account)
+    where("to_account_id = #{account.id} OR from_account_id = #{account.id}")
+  end
 
   def created_user
     User.find(self.created_by)
