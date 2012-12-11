@@ -8,8 +8,6 @@
         a href="#residents" data-toggle="tab" 住戶
       li
         a href="#idle" data-toggle="tab" 非住戶
-      li
-        a href="#admin" data-toggle="tab" 管理員
     .tab-content
       #residents.tab-pane.active
         = render partial: 'residents', locals: { residents: @residents.current_residents }

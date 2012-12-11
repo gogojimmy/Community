@@ -1,0 +1,13 @@
+.row
+  .span12
+    h1 管理員資料管理
+    ul.nav.nav-tabs
+      li.active
+        a href="#admins" data-toggle="tab" 管理員
+      li
+        a href="#non-admins" data-toggle="tab" 待審核名單
+    .tab-content
+      #admins.tab-pane.active
+        = render :partial => 'users', locals: { users: @admins }
+      #non-admins.tab-pane
+        = render :partial => 'users', locals: { users: @not_admins }

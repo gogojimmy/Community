@@ -1,8 +1,7 @@
 = simple_form_for [@building, @unit], html: { class: 'form-horizontal' } do |f|
-  = f.input :num, label: '門牌號碼'
+  = f.input :num, label: '樓層'
   = f.input :address, label: '地址'
   = f.input :pin, label: '坪數'
   = f.input :management_fee, label: '管理費'
-  = f.input :resident, label: '住戶', input_html: { name: 'unit[resident_pid]' }
   .form-actions
     = f.submit '送出', class: 'btn btn-primary'

@@ -9,6 +9,11 @@ Community::Application.routes.draw do
     resources :units
   end
 
+  resources :users do
+    post '/approve', to: 'users#approve'
+    delete '/unapprove', to: 'users#unapprove'
+  end
+
   resources :payments
   resources :accounts
 

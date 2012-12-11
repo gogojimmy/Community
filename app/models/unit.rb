@@ -12,7 +12,7 @@ class Unit < ActiveRecord::Base
   before_update :build_update_comment
 
   def unit_num
-    self.num + "號"
+    self.num + "樓"
   end
 
   def created_user

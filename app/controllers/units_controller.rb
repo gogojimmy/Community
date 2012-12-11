@@ -49,6 +49,12 @@ class UnitsController < ApplicationController
     end
   end
 
+  def destroy
+    @unit = @building.units.find(params[:id])
+    @unit.destroy
+    redirect_to buildings_path, notice: '單位刪除成功'
+  end
+
   protected
 
   def find_building
