@@ -69,7 +69,7 @@ Community::Application.configure do
 end
 
 Community::Application.config.middleware.use ExceptionNotifier,
-  :email_prefix => "[Exception Notifier - Production] ",
+  :email_prefix => "[巴黎春天]爆炸了快看 ",
   :sender_address => %{"notifier" <bravo@bravo.com>},
   :exception_recipients => %w{jimmy@gogojimmy.net}
 
