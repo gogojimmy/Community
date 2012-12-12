@@ -5,7 +5,11 @@
     .clearfix
     - @buildings.each_slice(4) do |a, b, c, d|
       .row
-        = render :partial => 'building', locals: { building: a }
-        = render :partial => 'building', locals: { building: b }
-        = render :partial => 'building', locals: { building: c }
-        = render :partial => 'building', locals: { building: d }
+        - if a
+          = render :partial => 'building', locals: { building: a }
+        - if b
+          = render :partial => 'building', locals: { building: b }
+        - if c
+          = render :partial => 'building', locals: { building: c }
+        - if d
+          = render :partial => 'building', locals: { building: d }

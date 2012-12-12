@@ -1,6 +1,6 @@
 .building.span3
   .well
-    h2.pull-left #{building.try(:name)}棟
+    h2.pull-left #{building.name}棟
     = link_to '編輯', edit_building_path(building), class: 'pull-right btn'
     '
     = link_to '新增單位', new_building_unit_path(building), class: 'pull-right btn'
