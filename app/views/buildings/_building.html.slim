@@ -11,14 +11,15 @@
         li
           - if unit.resident.present?
             .unit.living-unit.alert.alert-success
-              h5.pull-left= unit.address
-              = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini pull-right'
-              = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger btn-mini pull-right'
-              .clearfix
-              hr
+              h5= unit.address
               = link_to unit.resident_name, resident_path(unit.resident)
+              br
+              .actions
+                = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini'
+                = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger'
           - else
             .unit.empty.alert.alert-info
-              h5.pull-left= unit.address
-              = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini pull-right'
-              = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger btn-mini pull-right'
+              h5= unit.address
+              .actions
+                = link_to '編輯', edit_building_unit_path(building, unit), class: 'btn btn-mini pull-right'
+                = link_to '刪除', building_unit_path(building, unit), method: :delete, confirm: '確認要刪除此單位嗎？', class: 'btn btn-danger btn-mini'

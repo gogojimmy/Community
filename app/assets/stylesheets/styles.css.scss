@@ -14,6 +14,17 @@
   @include border-radius(4px, 4px);
   padding: 5px;
   height: 80px;
+  position: relative;
+  .actions {
+    display: none;
+    position: absolute;
+    bottom: 2px;
+  }
+  &:hover {
+    .actions {
+      display: block;
+    }
+  }
 }
 
 .building {

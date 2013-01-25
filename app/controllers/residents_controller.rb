@@ -17,7 +17,7 @@ class ResidentsController < ApplicationController
 
   def create
     @resident = Resident.new(params[:resident])
-    @resident.created_by = current_user
+    @resident.created_by = current_user.id
 
     if @resident.save
       redirect_to resident_path(@resident), notice: "#{@resident.name}建立成功！"
@@ -32,7 +32,7 @@ class ResidentsController < ApplicationController
 
   def update
     @resident = Resident.find(params[:id])
-    @resident.updated_by = current_user
+    @resident.updated_by = current_user.id
 
     if @resident.update_attributes(params[:resident])
       redirect_to resident_path(@resident), notice: "成功更新了#{@resident.name}的資料"
